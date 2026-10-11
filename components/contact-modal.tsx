@@ -8,7 +8,7 @@ import type { PageService } from "@/lib/site-config";
 export function ContactModal({
   whatsappNumber,
   leadsWebhookUrl,
-  pageService = "penhora_imovel",
+  pageService = "bloqueio_conta",
 }: {
   whatsappNumber: string;
   leadsWebhookUrl: string;

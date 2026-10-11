@@ -3,10 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import {
   accountContactSchema,
   accountSituationOptions,
+  blockedAbove50kOptions,
   propertyContactSchema,
   propertySituationOptions,
   propertyValueOptions,
@@ -43,16 +44,17 @@ export function ContactForm({
   whatsappNumber,
   leadsWebhookUrl,
   location,
-  pageService = "penhora_imovel",
+  pageService = "bloqueio_conta",
 }: ContactFormProps) {
   const isAccountPage = pageService === "bloqueio_conta";
   const schema = isAccountPage ? accountContactSchema : propertyContactSchema;
   const situationOptions = isAccountPage ? accountSituationOptions : propertySituationOptions;
-  const { register, handleSubmit, formState: { errors, isSubmitting, isValid } } = useForm<ContactInput>({
+  const { register, handleSubmit, control, formState: { errors, isSubmitting, isValid } } = useForm<ContactInput>({
     resolver: zodResolver(schema),
     defaultValues: { privacyAccepted: false },
     mode: "onChange",
   });
+  const blockedAbove50k = useWatch({ control, name: "blockedAbove50k" });
 
   async function onSubmit(values: ContactInput) {
     if (!whatsappNumber) return;
@@ -67,6 +69,7 @@ export function ContactForm({
       name: values.name,
       whatsapp: values.whatsapp,
       situation: values.situation,
+      blockedAbove50k: "blockedAbove50k" in values ? values.blockedAbove50k : undefined,
       propertyValue: "propertyValue" in values ? values.propertyValue : undefined,
       city: values.city,
       privacyAccepted: values.privacyAccepted,
@@ -84,6 +87,9 @@ export function ContactForm({
       `Nome: ${values.name}`,
       `WhatsApp: ${values.whatsapp}`,
       `Situação: ${values.situation}`,
+      ...(isAccountPage && "blockedAbove50k" in values
+        ? [`Bloqueio acima de R$ 50 mil: ${values.blockedAbove50k}`]
+        : []),
       ...(isAccountPage || !("propertyValue" in values) ? [] : [`Valor do imóvel: ${values.propertyValue}`]),
       `Cidade/UF: ${values.city}`,
     ].join("\n");
@@ -115,9 +121,23 @@ export function ContactForm({
         )}
         {isAccountPage && <label>Cidade/UF<input autoComplete="address-level2" required placeholder="Ex.: Campinas/SP" {...register("city")} aria-invalid={!!errors.city} /></label>}
       </div>
+      {isAccountPage && (
+        <label className="field-full">O valor bloqueado é superior a R$ 50 mil?
+          <select defaultValue="" required {...register("blockedAbove50k")} aria-invalid={!!errors.blockedAbove50k}>
+            <option value="" disabled>Selecione</option>
+            {blockedAbove50kOptions.map((option) => <option key={option}>{option}</option>)}
+          </select>
+        </label>
+      )}
+      {isAccountPage && blockedAbove50k === "Não" && (
+        <div className="qualification-stop" role="alert">
+          <strong>Não é possível seguir com a solicitação.</strong>
+          <p>Este formulário atende somente situações em que o bloqueio é superior a R$ 50 mil.</p>
+        </div>
+      )}
       {!isAccountPage && <label className="field-full">Cidade/UF<input autoComplete="address-level2" required placeholder="Ex.: Campinas/SP" {...register("city")} aria-invalid={!!errors.city} /></label>}
       <div className="form-errors" aria-live="polite">
-        {Object.values(errors)[0]?.message && <p>{String(Object.values(errors)[0]?.message)}</p>}
+        {blockedAbove50k !== "Não" && Object.values(errors)[0]?.message && <p>{String(Object.values(errors)[0]?.message)}</p>}
       </div>
       <label className="check-field">
         <input type="checkbox" required {...register("privacyAccepted")} />
@@ -127,7 +147,7 @@ export function ContactForm({
         <MessageCircle aria-hidden="true" size={18} />
         {isSubmitting ? "Registrando contato…" : "Enviar pelo WhatsApp"}
       </button>
-      {!isValid && <p className="form-config-note">Preencha todos os campos e aceite a Política de Privacidade para habilitar o envio.</p>}
+      {!isValid && blockedAbove50k !== "Não" && <p className="form-config-note">Preencha todos os campos e aceite a Política de Privacidade para habilitar o envio.</p>}
       {!whatsappNumber && <p className="form-config-note">O número do WhatsApp precisa ser configurado antes do envio.</p>}
     </form>
   );

@@ -36,12 +36,14 @@ export const siteConfig = {
   leadsWebhookUrl:
     process.env.NEXT_PUBLIC_GOOGLE_APPS_SCRIPT_URL?.trim()
     || "https://script.google.com/macros/s/AKfycbwpPk9fLTa6fzrRvvIUmKDMRz6k7DwmEdPQhS5ADm_7--1wBNJMtWbcZIolbfCEo3KPPQ/exec",
-  accountLeadsWebhookUrl: process.env.NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL?.trim() ?? "",
+  accountLeadsWebhookUrl:
+    process.env.NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL?.trim()
+    || "https://script.google.com/macros/s/AKfycbwpPk9fLTa6fzrRvvIUmKDMRz6k7DwmEdPQhS5ADm_7--1wBNJMtWbcZIolbfCEo3KPPQ/exec",
   allowIndexing: process.env.ALLOW_INDEXING === "true",
   gtmId: process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "",
 } as const;
 
-export function whatsappUrl(service: keyof typeof servicePages = "property") {
+export function whatsappUrl(service: keyof typeof servicePages = "account") {
   if (!siteConfig.whatsapp) return "#contato";
   return `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(servicePages[service].whatsappMessage)}`;
 }

@@ -21,6 +21,8 @@ export const propertyValueOptions = [
   "Acima de R$ 1 milhão",
 ] as const;
 
+export const blockedAbove50kOptions = ["Sim", "Não"] as const;
+
 const baseContactSchema = z.object({
   name: z.string().trim().min(2, "Informe seu nome.").max(100),
   whatsapp: z
@@ -30,6 +32,7 @@ const baseContactSchema = z.object({
     .max(20, "Revise o número informado.")
     .regex(/^[+()\d\s-]+$/, "Use apenas números e os símbolos +, (, ), espaço ou hífen."),
   city: z.string().trim().min(2, "Informe cidade e UF.").max(100),
+  blockedAbove50k: z.string().optional(),
   privacyAccepted: z.boolean().refine((value) => value, {
     message: "É necessário aceitar a Política de Privacidade.",
   }),
@@ -43,6 +46,11 @@ export const propertyContactSchema = baseContactSchema.extend({
 export const accountContactSchema = baseContactSchema.extend({
   situation: z.enum(accountSituationOptions, { message: "Selecione uma situação." }),
   propertyValue: z.string().optional(),
+  blockedAbove50k: z
+    .enum(blockedAbove50kOptions, { message: "Informe se o bloqueio é superior a R$ 50 mil." })
+    .refine((value): boolean => value === "Sim", {
+      message: "Não é possível seguir quando o bloqueio é de até R$ 50 mil.",
+    }),
 });
 
 export type ContactInput = z.infer<typeof propertyContactSchema> | z.infer<typeof accountContactSchema>;

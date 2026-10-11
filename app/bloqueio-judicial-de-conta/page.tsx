@@ -23,7 +23,7 @@ import { ContactForm } from "@/components/contact-form";
 import { ContactModal } from "@/components/contact-modal";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
-import { servicePages, siteConfig, whatsappUrl } from "@/lib/site-config";
+import { servicePages, siteConfig } from "@/lib/site-config";
 
 const accountPage = servicePages.account;
 
@@ -189,7 +189,7 @@ export default function BloqueioJudicialDeContaPage() {
                 Entenda quais circunstâncias podem justificar a análise jurídica de um bloqueio judicial de valores e quais medidas podem ser avaliadas conforme as particularidades do seu caso.
               </p>
               <div className="hero-actions">
-                <ContactCta href={whatsappUrl("account")} location="hero">Solicitar atendimento jurídico</ContactCta>
+                <ContactCta openForm location="hero">Solicitar atendimento jurídico</ContactCta>
                 <a className="quiet-link" href="#entenda">Entenda como funciona <ArrowDown aria-hidden="true" size={16} /></a>
               </div>
               <div className="lawyer-id"><span>SS</span><p><strong>Dr. Samuel Santos</strong><small>{siteConfig.oab}</small></p></div>

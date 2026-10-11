@@ -19,14 +19,14 @@ Preencha `.env.local` sem versionar dados reais:
 - `NEXT_PUBLIC_SITE_URL`: origem canônica, sem barra final.
 - `NEXT_PUBLIC_WHATSAPP_NUMBER`: número com DDI e DDD, apenas dígitos. O projeto usa como referência o número institucional verificado, mas a titularidade e atualidade devem ser confirmadas antes da publicação.
 - `NEXT_PUBLIC_GOOGLE_APPS_SCRIPT_URL`: endpoint informado para a integração já existente com a aba `IMOVEL`.
-- `NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL`: use somente depois de republicar `apps-script/Code.gs` com suporte à aba `bloqueio_conta`. Enquanto estiver vazio, o formulário da nova página segue diretamente para o WhatsApp e não simula gravação em planilha.
+- `NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL`: URL do Web App que grava os leads qualificados na aba `CONTAS`. O endpoint informado está configurado no exemplo e no ambiente local.
 - `NEXT_PUBLIC_CONTACT_EMAIL` e `NEXT_PUBLIC_OFFICE_ADDRESS`: dados institucionais opcionais.
 - `ALLOW_INDEXING`: use `true` somente após revisão e publicação no domínio final.
 - `NEXT_PUBLIC_GTM_ID`: contêiner GTM opcional. Não informe um ID fictício nem mantenha outra instalação duplicada.
 
 ## Formulário
 
-O formulário aparece em modal e na seção final. A validação com Zod ocorre a cada alteração e não solicita valor bloqueado, CPF, conta, senha ou detalhes do processo. No envio, o visitante é direcionado ao WhatsApp com uma mensagem específica para o serviço.
+O formulário aparece em modal e na seção final. A validação com Zod ocorre a cada alteração e pergunta apenas se o bloqueio supera R$ 50 mil, sem solicitar o valor exato, CPF, conta, senha ou detalhes do processo. A resposta “Não” bloqueia o envio e informa que não é possível continuar por esse formulário. Leads qualificados são enviados à aba `CONTAS` e, em seguida, direcionados ao WhatsApp.
 
 O código e as instruções para a planilha estão em `apps-script/Code.gs` e `apps-script/README.md`.
 

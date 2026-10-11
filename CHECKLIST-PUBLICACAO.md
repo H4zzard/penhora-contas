@@ -13,7 +13,7 @@
 - [ ] Confirmar que o WhatsApp configurado, `(11) 93624-9503`, é o número definitivo para esta campanha.
 - [ ] Testar o preenchimento e o redirecionamento do formulário para o WhatsApp em dispositivo real.
 - [x] Web App da aba `IMOVEL` preservado em `NEXT_PUBLIC_GOOGLE_APPS_SCRIPT_URL`.
-- [ ] Republicar `apps-script/Code.gs` para habilitar a aba `bloqueio_conta` e configurar `NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL`.
+- [ ] Republicar `apps-script/Code.gs` para habilitar a aba `CONTAS` e confirmar um envio real com todos os campos.
 - [ ] Revisar juridicamente o conteúdo de `/bloqueio-judicial-de-conta` antes da publicação.
 - [ ] Configurar GTM apenas se houver contêiner real e revisar o consentimento.
 - [ ] Configurar no atendimento o evento `lead_qualification_confirmed` somente após confirmação real, sem dados jurídicos sensíveis.

@@ -5,7 +5,7 @@ const FORM_CONFIGS = {
     requiresPropertyValue: true,
   },
   bloqueio_conta_site_v1: {
-    sheetName: 'bloqueio_conta',
+    sheetName: 'CONTAS',
     situations: [
       'Conta bloqueada judicialmente',
       'Bloqueio de salário ou benefício',
@@ -14,6 +14,7 @@ const FORM_CONFIGS = {
       'Outra situação',
     ],
     requiresPropertyValue: false,
+    requiresBlockedAbove50k: true,
   },
 };
 
@@ -25,6 +26,7 @@ const HEADERS = [
   'Nome',
   'WhatsApp',
   'Situação',
+  'Bloqueio acima de R$ 50 mil',
   'Valor do imóvel',
   'Cidade/UF',
   'Consentimento',
@@ -87,6 +89,7 @@ function doPost(e) {
       safeCell_(data.name),
       safeCell_(data.whatsapp),
       safeCell_(data.situation),
+      safeCell_(data.blockedAbove50k),
       safeCell_(data.propertyValue),
       safeCell_(data.city),
       data.privacyAccepted === true ? 'Sim' : 'Não',
@@ -124,6 +127,7 @@ function validateLead_(data) {
 
   const required = ['leadId', 'name', 'whatsapp', 'situation', 'city'];
   if (config.requiresPropertyValue) required.push('propertyValue');
+  if (config.requiresBlockedAbove50k) required.push('blockedAbove50k');
   required.forEach(function (field) {
     if (!String(data[field] || '').trim()) {
       throw new Error('Campo obrigatório ausente: ' + field);
@@ -142,6 +146,9 @@ function validateLead_(data) {
   }
   if (config.requiresPropertyValue && propertyValues.indexOf(data.propertyValue) === -1) {
     throw new Error('Faixa de valor inválida.');
+  }
+  if (config.requiresBlockedAbove50k && data.blockedAbove50k !== 'Sim') {
+    throw new Error('O formulário aceita apenas bloqueios superiores a R$ 50 mil.');
   }
   if (data.privacyAccepted !== true) {
     throw new Error('Consentimento de privacidade ausente.');
