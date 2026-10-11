@@ -1,0 +1,31 @@
+{
+  "name": "samuel-santos-bloqueio-conta",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "lucide-react": "^0.545.0",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.65.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.38.0",
+    "eslint-config-next": "^16.0.0",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3"
+  }
+}
