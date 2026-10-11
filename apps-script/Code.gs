@@ -1,8 +1,11 @@
+const SPREADSHEET_ID = '1KZhKyMe1jm5pV1rdkEunjVF-fqsyv_UAROjK6TJTQHE';
+
 const FORM_CONFIGS = {
   imovel_site_v1: {
-    sheetName: 'IMOVEL',
+    sheetName: 'imovel',
     situations: ['Imóvel penhorado', 'Risco de penhora', 'Leilão agendado', 'Outra situação'],
     requiresPropertyValue: true,
+    requiresBlockedAbove50k: false,
   },
   bloqueio_conta_site_v1: {
     sheetName: 'CONTAS',
@@ -18,37 +21,28 @@ const FORM_CONFIGS = {
   },
 };
 
-const SPREADSHEET_ID = '1KZhKyMe1jm5pV1rdkEunjVF-fqsyv_UAROjK6TJTQHE';
-
-const HEADERS = [
-  'Recebido em',
-  'ID do lead',
-  'Nome',
-  'WhatsApp',
-  'Situação',
-  'Bloqueio acima de R$ 50 mil',
-  'Valor do imóvel',
-  'Cidade/UF',
-  'Consentimento',
-  'Origem',
-  'Página',
-  'Local do formulário',
-  'Enviado pelo navegador em',
-  'UTM Source',
-  'UTM Medium',
-  'UTM Campaign',
-  'UTM Content',
-  'UTM Term',
-  'GCLID',
-  'GBRAID',
-  'WBRAID',
-];
+const HEADERS = {
+  imovel_site_v1: [
+    'Recebido em', 'ID do lead', 'Nome', 'WhatsApp', 'Situação',
+    'Valor do imóvel', 'Cidade/UF', 'Consentimento', 'Origem', 'Página',
+    'Local do formulário', 'Enviado pelo navegador em', 'UTM Source',
+    'UTM Medium', 'UTM Campaign', 'UTM Content', 'UTM Term',
+    'GCLID', 'GBRAID', 'WBRAID',
+  ],
+  bloqueio_conta_site_v1: [
+    'Recebido em', 'ID do lead', 'Nome', 'WhatsApp', 'Situação',
+    'Bloqueio acima de R$ 50 mil', 'Cidade/UF', 'Consentimento', 'Origem', 'Página',
+    'Local do formulário', 'Enviado pelo navegador em', 'UTM Source',
+    'UTM Medium', 'UTM Campaign', 'UTM Content', 'UTM Term',
+    'GCLID', 'GBRAID', 'WBRAID',
+  ],
+};
 
 function doGet() {
   return jsonResponse_({
     ok: true,
     service: 'leads_site_samuel_santos',
-    sheets: Object.keys(FORM_CONFIGS).map(function (key) { return FORM_CONFIGS[key].sheetName; }),
+    sheets: ['imovel', 'CONTAS'],
   });
 }
 
@@ -63,6 +57,7 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
     const formConfig = validateLead_(data);
 
+    const headers = HEADERS[data.formKey];
     const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
 
     lock = LockService.getScriptLock();
@@ -74,41 +69,18 @@ function doPost(e) {
     }
 
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(HEADERS);
+      sheet.appendRow(headers);
       sheet.setFrozenRows(1);
-      sheet.getRange(1, 1, 1, HEADERS.length)
+      sheet.getRange(1, 1, 1, headers.length)
         .setFontWeight('bold')
         .setBackground('#0B0B0B')
         .setFontColor('#FFFFFF');
     }
 
-    const attribution = data.attribution || {};
-    sheet.appendRow([
-      new Date(),
-      safeCell_(data.leadId),
-      safeCell_(data.name),
-      safeCell_(data.whatsapp),
-      safeCell_(data.situation),
-      safeCell_(data.blockedAbove50k),
-      safeCell_(data.propertyValue),
-      safeCell_(data.city),
-      data.privacyAccepted === true ? 'Sim' : 'Não',
-      safeCell_(data.pageService),
-      safeCell_(data.pageUrl),
-      safeCell_(data.formLocation),
-      safeCell_(data.submittedAt),
-      safeCell_(attribution.utm_source),
-      safeCell_(attribution.utm_medium),
-      safeCell_(attribution.utm_campaign),
-      safeCell_(attribution.utm_content),
-      safeCell_(attribution.utm_term),
-      safeCell_(attribution.gclid),
-      safeCell_(attribution.gbraid),
-      safeCell_(attribution.wbraid),
-    ]);
+    sheet.appendRow(buildRow_(data));
 
     SpreadsheetApp.flush();
-    return jsonResponse_({ ok: true, leadId: data.leadId });
+    return jsonResponse_({ ok: true, leadId: data.leadId, sheet: formConfig.sheetName });
   } catch (error) {
     console.error(error);
     return jsonResponse_({ ok: false, error: String(error.message || error) });
@@ -117,6 +89,36 @@ function doPost(e) {
       lock.releaseLock();
     }
   }
+}
+
+function buildRow_(data) {
+  const attribution = data.attribution || {};
+  const specificValue = data.formKey === 'imovel_site_v1'
+    ? data.propertyValue
+    : data.blockedAbove50k;
+
+  return [
+    new Date(),
+    safeCell_(data.leadId),
+    safeCell_(data.name),
+    safeCell_(data.whatsapp),
+    safeCell_(data.situation),
+    safeCell_(specificValue),
+    safeCell_(data.city),
+    data.privacyAccepted === true ? 'Sim' : 'Não',
+    safeCell_(data.pageService),
+    safeCell_(data.pageUrl),
+    safeCell_(data.formLocation),
+    safeCell_(data.submittedAt),
+    safeCell_(attribution.utm_source),
+    safeCell_(attribution.utm_medium),
+    safeCell_(attribution.utm_campaign),
+    safeCell_(attribution.utm_content),
+    safeCell_(attribution.utm_term),
+    safeCell_(attribution.gclid),
+    safeCell_(attribution.gbraid),
+    safeCell_(attribution.wbraid),
+  ];
 }
 
 function validateLead_(data) {
