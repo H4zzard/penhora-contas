@@ -1,4 +1,8 @@
 const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://advsamuelsantos.com.br").replace(/\/$/, "");
+const configuredGtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
+const gtmId = configuredGtmId && /^GTM-[A-Z0-9]+$/.test(configuredGtmId)
+  ? configuredGtmId
+  : "GTM-5KHN42MZ";
 
 export type PageService = "penhora_imovel" | "bloqueio_conta";
 
@@ -40,7 +44,7 @@ export const siteConfig = {
     process.env.NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL?.trim()
     || "https://script.google.com/macros/s/AKfycbwpPk9fLTa6fzrRvvIUmKDMRz6k7DwmEdPQhS5ADm_7--1wBNJMtWbcZIolbfCEo3KPPQ/exec",
   allowIndexing: process.env.ALLOW_INDEXING === "true",
-  gtmId: process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "",
+  gtmId,
 } as const;
 
 export function whatsappUrl(service: keyof typeof servicePages = "account") {

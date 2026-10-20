@@ -1,16 +1,12 @@
 "use client";
 
-import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ATTRIBUTION_KEYS, hasAnalyticsConsent, trackEvent } from "@/lib/tracking";
 
-export function Tracking({ gtmId }: { gtmId: string }) {
-  const [consented, setConsented] = useState(false);
-
+export function Tracking() {
   useEffect(() => {
     const initialize = () => {
       const granted = hasAnalyticsConsent();
-      setConsented(granted);
       if (!granted) return;
 
       const params = new URLSearchParams(window.location.search);
@@ -30,15 +26,5 @@ export function Tracking({ gtmId }: { gtmId: string }) {
     return () => window.removeEventListener("analytics-consent-changed", initialize);
   }, []);
 
-  if (!gtmId || !consented) return null;
-
-  return (
-    <Script id="gtm-loader" strategy="afterInteractive">
-      {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${gtmId}');`}
-    </Script>
-  );
+  return null;
 }
