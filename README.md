@@ -21,7 +21,7 @@ Preencha `.env.local` sem versionar dados reais:
 - `NEXT_PUBLIC_GOOGLE_APPS_SCRIPT_URL`: endpoint informado para a integração já existente com a aba `IMOVEL`.
 - `NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL`: URL do Web App que grava os leads qualificados na aba `CONTAS`. O endpoint informado está configurado no exemplo e no ambiente local.
 - `NEXT_PUBLIC_CONTACT_EMAIL` e `NEXT_PUBLIC_OFFICE_ADDRESS`: dados institucionais opcionais.
-- `ALLOW_INDEXING`: use `true` somente após revisão e publicação no domínio final.
+- A indexação é liberada somente em builds de produção configurados para `https://contas.advsamuelsantos.com.br`. Builds locais e previews do Vercel permanecem bloqueados.
 - `NEXT_PUBLIC_GTM_ID`: permite substituir o contêiner GTM padrão (`GTM-5KHN42MZ`). Não mantenha outra instalação duplicada.
 
 ## Formulário
@@ -54,7 +54,7 @@ npm run build
 
 ## Deploy
 
-O projeto pode ser publicado em ambiente compatível com Next.js (por exemplo, Vercel) ou em infraestrutura Node. Configure as variáveis no provedor e direcione apenas a rota `/bloqueio-judicial-de-conta` para esta aplicação, preservando a hospedagem da landing page de imóveis. Defina `ALLOW_INDEXING=true` somente no ambiente final revisado.
+O projeto pode ser publicado em ambiente compatível com Next.js (por exemplo, Vercel) ou em infraestrutura Node. Configure as variáveis no provedor e direcione apenas a rota `/bloqueio-judicial-de-conta` para esta aplicação, preservando a hospedagem da landing page de imóveis. A indexação é permitida apenas em produção quando `NEXT_PUBLIC_SITE_URL` aponta para `https://contas.advsamuelsantos.com.br`; mantenha o domínio de staging separado para que ele continue bloqueado.
 
 A fotografia em `public/images/samuel-santos-upscale.jpeg` utiliza a versão em alta resolução fornecida para o projeto. Confirme autorização, atualidade e preferência de enquadramento antes da publicação.
 

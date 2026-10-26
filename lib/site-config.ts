@@ -1,4 +1,10 @@
-const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://advsamuelsantos.com.br").replace(/\/$/, "");
+const productionSiteUrl = "https://contas.advsamuelsantos.com.br";
+const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? productionSiteUrl).replace(/\/$/, "");
+const allowIndexing =
+  process.env.NODE_ENV === "production" &&
+  process.env.VERCEL_ENV !== "preview" &&
+  process.env.VERCEL_ENV !== "development" &&
+  baseUrl === productionSiteUrl;
 const configuredGtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
 const gtmId = configuredGtmId && /^GTM-[A-Z0-9]+$/.test(configuredGtmId)
   ? configuredGtmId
@@ -17,7 +23,7 @@ export const servicePages = {
   account: {
     service: "bloqueio_conta" as const,
     path: "/bloqueio-judicial-de-conta",
-    url: `${baseUrl}/bloqueio-judicial-de-conta/`,
+    url: `${baseUrl}/bloqueio-judicial-de-conta`,
     whatsappMessage:
       "Olá, Dr. Samuel! Gostaria de informações sobre atendimento jurídico relacionado a um bloqueio judicial em conta bancária.",
   },
@@ -43,7 +49,7 @@ export const siteConfig = {
   accountLeadsWebhookUrl:
     process.env.NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL?.trim()
     || "https://script.google.com/macros/s/AKfycbwpPk9fLTa6fzrRvvIUmKDMRz6k7DwmEdPQhS5ADm_7--1wBNJMtWbcZIolbfCEo3KPPQ/exec",
-  allowIndexing: process.env.ALLOW_INDEXING === "true",
+  allowIndexing,
   gtmId,
 } as const;
 

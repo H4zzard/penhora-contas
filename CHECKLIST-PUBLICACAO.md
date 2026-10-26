@@ -21,7 +21,7 @@
 
 ## SEO e domínio
 
-- [ ] Definir `ALLOW_INDEXING=true` somente na produção revisada.
+- [ ] Confirmar que `NEXT_PUBLIC_SITE_URL` usa `https://contas.advsamuelsantos.com.br` apenas em produção; previews/staging devem usar outro domínio.
 - [ ] Confirmar canonical, sitemap, robots e OG image no domínio final.
 - [ ] Vincular Search Console e validar a propriedade do domínio.
 - [ ] Conferir redirecionamentos HTTPS e variações com/sem `www`.
