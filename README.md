@@ -26,7 +26,7 @@ Preencha `.env.local` sem versionar dados reais:
 
 ## Formulário
 
-O formulário aparece em modal e na seção final. A validação com Zod ocorre a cada alteração e pergunta apenas se o bloqueio supera R$ 50 mil, sem solicitar o valor exato, CPF, conta, senha ou detalhes do processo. A resposta “Não” bloqueia o envio e informa que não é possível continuar por esse formulário. Leads qualificados são enviados à aba `CONTAS` e, em seguida, direcionados ao WhatsApp.
+O formulário de bloqueio de contas aparece em modal e na seção final e solicita nome, WhatsApp e valor bloqueado. O valor é formatado automaticamente com separadores de milhar; somente valores superiores a R$ 50 mil podem ser enviados. Valores de R$ 50 mil ou menos bloqueiam a continuidade. Leads qualificados são registrados na aba `CONTAS` e direcionados ao WhatsApp. Cidade e tipo de situação não são solicitados.
 
 O código e as instruções para a planilha estão em `apps-script/Code.gs` e `apps-script/README.md`.
 
@@ -41,6 +41,8 @@ O GTM é carregado somente após consentimento. A camada de dados usa:
 - `cta_whatsapp_click`
 - `contact_form_submit` disparado imediatamente antes do redirecionamento ao WhatsApp, sem incluir dados pessoais no evento
 - `lead_qualification_confirmed` reservado para confirmação real no fluxo de atendimento; a página não o dispara automaticamente.
+
+O evento `contact_form_submit` só ocorre após a validação do valor mínimo e no envio qualificado para o WhatsApp.
 
 Os parâmetros `gclid`, `gbraid`, `wbraid` e UTMs são guardados somente após consentimento. Nenhum evento `generate_lead` é disparado em clique ou abertura do WhatsApp.
 
