@@ -22,7 +22,7 @@ Preencha `.env.local` sem versionar dados reais:
 - `NEXT_PUBLIC_ACCOUNT_GOOGLE_APPS_SCRIPT_URL`: URL do Web App que grava os leads qualificados na aba `CONTAS`. O endpoint informado está configurado no exemplo e no ambiente local.
 - `NEXT_PUBLIC_CONTACT_EMAIL` e `NEXT_PUBLIC_OFFICE_ADDRESS`: dados institucionais opcionais.
 - A indexação é liberada somente em builds de produção configurados para `https://contas.advsamuelsantos.com.br`. Builds locais e previews do Vercel permanecem bloqueados.
-- `NEXT_PUBLIC_GTM_ID`: permite substituir o contêiner GTM padrão (`GTM-5KHN42MZ`). Não mantenha outra instalação duplicada.
+- `NEXT_PUBLIC_GTM_ID`: permite substituir o contêiner GTM padrão (`GTM-K76NLTX2`). Não mantenha outra instalação duplicada.
 
 ## Formulário
 

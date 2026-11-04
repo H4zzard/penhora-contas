@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^for file in \\.env\\.local \\.env\\.production \\.env; do if test -f \"\\$file\"; then grep '\\^NEXT_PUBLIC_GTM_ID=' \"\\$file\" \\|\\| true; fi; done$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

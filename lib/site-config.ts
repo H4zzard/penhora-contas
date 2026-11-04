@@ -8,7 +8,7 @@ const allowIndexing =
 const configuredGtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
 const gtmId = configuredGtmId && /^GTM-[A-Z0-9]+$/.test(configuredGtmId)
   ? configuredGtmId
-  : "GTM-5KHN42MZ";
+  : "GTM-K76NLTX2";
 
 export type PageService = "penhora_imovel" | "bloqueio_conta";
 

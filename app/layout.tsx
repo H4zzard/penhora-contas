@@ -37,21 +37,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-BR" className={`${sans.variable} ${serif.variable}`}>
       <head>
-        {/* Google Tag Manager */}
         <script dangerouslySetInnerHTML={{ __html: googleTagManagerScript }} />
-        {/* End Google Tag Manager */}
       </head>
       <body>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${siteConfig.gtmId}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
         {children}
         <CookieConsent />
         <Tracking />
