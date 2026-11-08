@@ -15,6 +15,7 @@ import {
   Network,
   Scale,
   ShieldCheck,
+  Star,
   UsersRound,
   WalletCards,
 } from "lucide-react";
@@ -131,6 +132,69 @@ const faq = [
     "Qual a diferença entre penhora e bloqueio judicial de valores?",
     "O bloqueio torna ativos indisponíveis em cumprimento a uma ordem judicial. A penhora é o ato processual que vincula o bem ou valor à execução. Na prática, a indisponibilidade eletrônica pode anteceder a formalização da penhora e os atos posteriores previstos no processo.",
   ],
+] as const;
+
+const googleReviews = [
+  {
+    name: "Luciana Silva",
+    date: "um ano atrás",
+    text: "Dr Samuel foi para nós uma grata surpresa , um profissional ágil .. uma causa de 10 anos resolvida com precisão e fundamentada sem deixar dúvidas .. o resultado positivo em 06 meses.. ganhamos.. super indico .. Luciana Silva Arujá - São Paulo",
+    url: "https://maps.app.goo.gl/3K6JsdicGaTEZ54cA",
+  },
+  {
+    name: "Carlos Soares",
+    date: "um ano atrás",
+    text: "Dr. Samuel conseguiu uma vitória muito importante pra minha família. Um excelente advogado. Super atencioso e muito claro com as decisões. Muito feliz com o trabalho dele. Parabéns Dr.",
+    url: "https://maps.app.goo.gl/GfdBGi2ifFfJe8er5",
+  },
+  {
+    name: "Dr João Paulo Resende",
+    date: "um ano atrás",
+    text: "Já realizei trabalhos com diversos profissionais de advocacia. Mas o Dr Samuel, sem dúvida nenhuma é o melhor que eu conheço, super capacitado, atualizado e inteligente. RECOMENDO DEMAIS",
+    url: "https://maps.app.goo.gl/fiAfGMyFPECgPZn9A",
+  },
+  {
+    name: "Luiz Fernando Castanha dos Santos",
+    date: "um ano atrás",
+    text: "Dr Samuel é um excelente profissional, sempre que preciso contrato seus serviços, só tenho a agradecer a atenção e disposição de sempre . Profissional e muito atencioso ....Recomendo..",
+    url: "https://maps.app.goo.gl/CQ3CGHxRhcca7MdH7",
+  },
+  {
+    name: "Alex Nobre",
+    date: "um ano atrás",
+    text: "Dr.Samuel e equipe são simplesmente excelentes no que fazem. Todas as minhas questões jurídicas empresariais e pessoais estão 100% em seu escritório de advocacia. Recomendo!",
+    url: "https://maps.app.goo.gl/Ap5LSSXuF5fPTGvu9",
+  },
+  {
+    name: "WIL MAGALHÃES",
+    date: "um ano atrás",
+    text: "O que posso comentar? Aqui você encontra uma competência incrível. O principio da honradez está sempre presente em todos os fundamentos do carater, respeito e os deveres da moral e da justiça; Honestidade, Probidade, Dignidade., Preciso dizer mais?",
+    url: "https://maps.app.goo.gl/WiujuyjK89rDmrdE6",
+  },
+  {
+    name: "Enio Rafael",
+    date: "um ano atrás",
+    text: "Satisfeito com o trabalho que o Samuel tem feito, prestando apoio e sempre me atualizando em relação ao andamento dos processos.",
+    url: "https://maps.app.goo.gl/vrvbJyjL3CU5qBKi6",
+  },
+  {
+    name: "Matheus Silva Araújo",
+    date: "editado há 5 meses",
+    text: "Excelente atendimento do Dr. Samuel! Profissional extremamente competente, atencioso e transparente em todas as etapas do processo. Sempre muito disponível para esclarecer dúvidas e passar segurança, demonstrando grande conhecimento jurídico e comprometimento com o cliente. Fiquei muito satisfeito com o serviço prestado e recomendo de olhos fechados para quem procura um advogado sério, eficiente e confiável.",
+    url: "https://maps.app.goo.gl/FYmKHRvZfpFChMES9",
+  },
+  {
+    name: "MARINEIDE BATISTA DE MOURA",
+    date: "um ano atrás",
+    text: "Melhor advogado que eu tive o privilégio de conhecer, responsável e atencioso e dedicado aos processos, ganhou minha causa o qual era muito difícil de ganhar , ótimo profissional",
+    url: "https://maps.app.goo.gl/pocV49DLCFZAvRpk6",
+  },
+  {
+    name: "Ayrton Camargo",
+    date: "um ano atrás",
+    text: "Confiança e rapidez na conclusão dos trabalhos. Cuida de vários processos nossos sempre com soluções favoráveis. Super recomendo!",
+    url: "https://maps.app.goo.gl/4MGWSx4gHJbq45WCA",
+  },
 ] as const;
 
 export default function BloqueioJudicialDeContaPage() {
@@ -319,10 +383,51 @@ export default function BloqueioJudicialDeContaPage() {
           </div>
         </section>
 
+        <section className="section reviews-section" id="avaliacoes">
+          <div className="container">
+            <div className="section-heading reviews-heading">
+              <div>
+                <p className="section-index">07 — AVALIAÇÕES NO GOOGLE</p>
+                <h2>Relatos compartilhados por clientes</h2>
+              </div>
+              <a
+                className="reviews-summary"
+                href="https://www.google.com/maps/place/Santos+Advogados/@-23.076446,-46.6155172,17z/data=!4m6!3m5!1s0x94cec5c06908d071:0xf8ed3bfd72260614!8m2!3d-23.076446!4d-46.6155172!16s%2Fg%2F11lh3vgvcm"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="reviews-score">5,0</span>
+                <span className="reviews-stars" aria-label="5 de 5 estrelas">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <Star key={index} size={16} fill="currentColor" aria-hidden="true" />
+                  ))}
+                </span>
+                <span className="reviews-count">34 avaliações · Ver no Google</span>
+              </a>
+            </div>
+            <div className="reviews-track" aria-label="Avaliações de clientes no Google" tabIndex={0}>
+              {googleReviews.map((review) => (
+                <article className="review-card" key={review.name}>
+                  <div className="review-card-stars" aria-label="5 de 5 estrelas">
+                    {Array.from({ length: 5 }, (_, index) => (
+                      <Star key={index} size={15} fill="currentColor" aria-hidden="true" />
+                    ))}
+                  </div>
+                  <blockquote>{review.text}</blockquote>
+                  <div className="review-card-footer">
+                    <div><strong>{review.name}</strong><span>{review.date}</span></div>
+                    <a href={review.url} target="_blank" rel="noreferrer" aria-label={`Ver avaliação de ${review.name} no Google`}>Google</a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="section faq-section" id="duvidas">
           <div className="container">
             <div className="faq-grid">
-              <div className="faq-intro"><p className="section-index">07 — PERGUNTAS FREQUENTES</p><h2>Informação clara para compreender o próximo passo.</h2><p>As respostas são gerais, não substituem a análise dos autos e não representam promessa de desbloqueio.</p></div>
+              <div className="faq-intro"><p className="section-index">08 — PERGUNTAS FREQUENTES</p><h2>Informação clara para compreender o próximo passo.</h2><p>As respostas são gerais, não substituem a análise dos autos e não representam promessa de desbloqueio.</p></div>
               <div className="faq-list">{faq.map(([question, answer], index) => <details key={question}><summary><span>{String(index + 1).padStart(2,"0")}</span>{question}<i aria-hidden="true">+</i></summary><p>{answer}</p></details>)}</div>
             </div>
           </div>
@@ -331,7 +436,7 @@ export default function BloqueioJudicialDeContaPage() {
         <section className="contact-section" id="contato">
           <div className="container contact-grid">
             <div className="contact-copy">
-              <p className="section-index gold">08 — CONTATO</p><h2>Sua conta foi atingida por um bloqueio judicial?</h2>
+              <p className="section-index gold">09 — CONTATO</p><h2>Sua conta foi atingida por um bloqueio judicial?</h2>
               <p>A análise das circunstâncias do processo pode ajudar a identificar as medidas juridicamente cabíveis.</p>
               <ContactCta openForm location="final_cta" variant="outline">Entrar em contato com o escritório</ContactCta>
               <small>Não envie CPF, dados bancários, senhas, documentos ou detalhes confidenciais pelo formulário.</small>
